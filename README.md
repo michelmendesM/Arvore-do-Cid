@@ -41,7 +41,7 @@ BST Simples e Árvore AVL.
 As duas foram escolhidas para demonstrar comportamentos diferentes no dataset. A BST Simples não possui mecanismos de autoajuste, permitindo a demonstração do pior caso de O(n) quando dados ordenados por temporada são inseridos. A AVL foi escolhida para a manutenção teórica do O(log n) sob qualquer cenário, corrigindo desníveis de altura através de rotações mecânicas durante a carga de milhares de registros.
 
 ### 2.3 Operações implementadas (Para Entrega 2)
-*(A ser preenchido na Entrega 2)*
+
 
 ### 2.4 Complexidade
 
@@ -83,20 +83,20 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 * **Múltiplas Leituras Massivas:** Realizar a mesma bateria de busca repetidas vezes em curto espaço de tempo.
 
 ### 3.4 Testes de desempenho (Para Entrega 2)
-*(A ser preenchido na Entrega 2)*
+
 
 ### 3.5 Resultados obtidos (Para Entrega 2)
-*(A ser preenchido na Entrega 2)*
+
 
 ---
 
 ## 4. Como Executar
 
 ### 4.1 Pré-requisitos (Para Entrega 2)
-*(A ser preenchido na Entrega 2)*
+
 
 ### 4.2 Instruções (Para Entrega 2)
-*(A ser preenchido na Entrega 2)*
+
 
 ### 4.3 Estrutura do repositório 
 * `/src` → código-fonte
