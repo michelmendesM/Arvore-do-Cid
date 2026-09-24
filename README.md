@@ -74,7 +74,7 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 | :--- | :--- | :--- | :--- | :--- |
 | **1** | **Inserção Aleatória** | Leitura do arquivo CSV aleatório, executando o teste com várias repetições na mesma máquina. | Ambas as árvores deverão apresentar tempo médio satisfatório e estrutura ramificada. | ☐ |
 | **2** | **Inserção Ordenada** | Leitura do arquivo CSV ordenado cronologicamente. | Provará o pior caso para a BST não balanceada (degradação) e testará a manutenção do tempo da AVL. | ☐ |
-| **3** | **Execução em Massa** | Milhares de buscas e remoções intercaladas após a carga completa dos dados. | A AVL passará por rebalanceamentos constantes (escrita mais lenta), enquanto a BST sofrerá lentidão extrema nas buscas. | ☐ |
+| **3** | **Execução em Massa** | fazer testes entre numeros aleatorios de buscas e remoções intercaladas após a carga completa dos dados. | A AVL passará por rebalanceamentos constantes, enquanto a BST sofrerá lentidão extrema nas buscas. | ☐ |
 
 ### 3.3 Casos extremos (edge cases)
 * **Inserção Crescente (Pior caso BST):** Dados de Fórmula 1 inseridos cronologicamente de 1950 a 2023 forçando o formato de lista.
@@ -103,6 +103,7 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 * `/dataset` → dataset utilizado
 * `/testes` → scripts e casos de teste
 * `/resultados` → saídas e relatórios de desempenho
+* `TemplateReadme´ → word que baseamos 
 * `README.md` → documentação principal
 
 ---
