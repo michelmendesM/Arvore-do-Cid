@@ -108,6 +108,6 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 ---
 
 ## 5. Referências
-* Slides do professor e Material da disciplina de Estruturas de Dados II.
-* Apostila de estruturas de dados.
+* Slides do professor
+* Apostila de estruturas de dados
 * Base de dados: [Fórmula 1 World Championship (1950-2020) - Kaggle](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020)
