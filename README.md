@@ -26,7 +26,7 @@ Os dados foram extraídos da base do projeto Ergast Developer API, disponível n
 * **tipoSessao (char):** 'C' para Corrida, 'Q' para Qualificação
 * **posicaoFinal (int):** Posição final na sessão
 * **tempoVolta (float):** Tempo em segundos
-* **Ordem de Comparação e Tratamento de Duplicatas:**
+**Ordem de Comparação e Tratamento de Duplicatas:**
 * **Comparador:** A ordem de grandeza será quem é maior/vai para a direita e quem é menor/vai para a esquerda. É definida explicitamente pela função `strcmp()` (que compara strings no C) aplicada sobre a `chaveComposta`.
 * **Tratamento de Chaves Repetidas:** Quando ocorrer uma chave idêntica a um nó já existente, a árvore não criará novos nós. O nó existente possuirá um ponteiro `next`, funcionando como uma lista encadeada simples interna, empilhando todos os tempos de volta referentes àquela mesma chave.
 
