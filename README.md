@@ -19,13 +19,16 @@ O conjunto de dados se baseia nos pilotos da Fórmula 1 desde sua criação em 1
 Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle: Fórmula 1 World Championship (1950-2024).
 
 ### 1.3 Estrutura dos dados
-* **chaveComposta (string):** Junção de Temporada + NomePiloto + TipoSessao 
+* **chaveComposta (string):** Junção de Temporada + Circuito + NomePiloto + TipoSessao
 * **temporada (int):** Ano da corrida
 * **nomePiloto (string):** Nome do piloto
 * **circuito (string):** Nome da pista
 * **tipoSessao (char):** 'C' para Corrida, 'Q' para Qualificação
 * **posicaoFinal (int):** Posição final na sessão
 * **tempoVolta (float):** Tempo em segundos
+* **Ordem de Comparação e Tratamento de Duplicatas:**
+* **Comparador:** A ordem de grandeza será quem é maior/vai para a direita e quem é menor/vai para a esquerda. É definida explicitamente pela função `strcmp()` (que compara strings no C) aplicada sobre a `chaveComposta`.
+* **Tratamento de Chaves Repetidas:** Quando ocorrer uma chave idêntica a um nó já existente, a árvore não criará novos nós. O nó existente possuirá um ponteiro `next`, funcionando como uma lista encadeada simples interna, empilhando todos os tempos de volta referentes àquela mesma chave.
 
 ### 1.4 Justificativa da escolha
 O dataset ultrapassa o volume mínimo de 50.000 registros. Também, a ordem cronológica dos dados da Fórmula 1 permite criar um cenário onde a performance sequencial causará a degradação da BST Simples, gerando o contraste perfeito com o balanceamento constante da AVL.
@@ -36,7 +39,7 @@ O dataset ultrapassa o volume mínimo de 50.000 registros. Também, a ordem cron
 
 ### 2.1 Estrutura(s)
 BST Simples e Árvore AVL.
-
+;
 ### 2.2 Justificativa técnica
 As duas foram escolhidas para demonstrar comportamentos diferentes no dataset. A BST Simples não possui mecanismos de autoajuste, permitindo a demonstração do pior caso de O(n) quando dados ordenados por temporada são inseridos. A AVL foi escolhida para a manutenção teórica do O(log n) sob qualquer cenário, corrigindo desníveis de altura através de rotações mecânicas durante a carga de milhares de registros.
 
@@ -72,15 +75,19 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 
 | # | Cenário | Entrada | Resultado esperado | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | **Inserção Aleatória** | Leitura do arquivo CSV aleatório, executando o teste com várias repetições na mesma máquina. | Ambas as árvores deverão apresentar tempo médio satisfatório e estrutura ramificada. | ☐ |
-| **2** | **Inserção Ordenada** | Leitura do arquivo CSV ordenado cronologicamente. | Provará o pior caso para a BST não balanceada (degradação) e testará a manutenção do tempo da AVL. | ☐ |
-| **3** | **Execução em Massa** | Fazer testes entre numeros aleatorios de buscas e remoções intercaladas após a carga completa dos dados. | A AVL passará por rebalanceamentos constantes, enquanto a BST sofrerá lentidão extrema nas buscas. | ☐ |
+| **1** | **Inserção Aleatória** | Leitura do arquivo CSV aleatório, executando em valores crescentes: 5.000, 10.000, 50.000 e até o fim do dataset. | Medição do tempo com relógio de alta resolução, altura final das árvores, número de comparações e contagem de rotações (AVL). | ☐ |
+| **2** | **Inserção Ordenada** | Leitura do arquivo CSV ordenado cronologicamente e crescente: 5.000, 10.000, 50.000 e até o fim do dataset. | Medir tempo de execução, altura e comparações. O gráfico traçará Tempo de execução vs Tamanho, tentando aproximar a BST de O(n) e a AVL a manter O(log n). | ☐ |
+| **3** | **Buscas e Remoções Intercaladas** | 50.000 operações exatas, sendo 80% de buscas e 20% de remoções. As chaves serão sorteadas com semente fixa para repetição. | Medição das operações intercaladas com relógio de alta resolução para conferir a estabilidade da árvore AVL sob stress de escrita e leitura. | ☐ |
 
 ### 3.3 Casos extremos (edge cases)
-* **Inserção Crescente (Pior caso BST):** Dados de Fórmula 1 inseridos cronologicamente de 1950 a 2023 forçando o formato de lista.
-* **Isolamento de Cache:** A máquina física será reinicializada entre execuções de diferentes árvores, garantindo a medição a frio ("cold start").
-* **Árvore Vazia e Chave Inexistente:** Tentar percorrer a árvore inteira buscando um piloto fictício para forçar a busca de profundidade máxima.
-* **Múltiplas Leituras Massivas:** Realizar a mesma bateria de busca repetidas vezes em curto espaço de tempo.
+* **Inserção Crescente (Pior caso BST):** Dados de Fórmula 1 inseridos cronologicamente de 1950 a 2024 forçando o formato de lista.
+* **Comportamento esperado:** A BST não balanceada perderá a sua característica de ramificação, degradando-se para o formato de uma lista linear (O(n)).
+* **Chaves Duplicadas:** Inserção de dados que possuem a mesma chave.
+* **Comportamento esperado:** A árvore não criará nós repetidos nem ocorrerá erros. Mas sim ela armazenará os registros subsequentes dentro de uma lista encadeada interna pertencente ao nó original.
+* **Chave Inexistente (profundidade máxima):** Tentar percorrer a árvore inteira buscando um piloto fictício para forçar a busca de profundidade máxima.
+* **Comportamento esperado:** Forçará o algoritmo a percorrer os nós da árvore até atingir a profundidade máxima antes de retornar para o usuário que há falha.
+* **Remoção da Raiz:** Solicitar a exclusão do nó principal logo após o carregamento completo dos milhares de dados.
+* **Comportamento esperado:** A árvore deverá escolher corretamente o próximo dado ou o anterior(+1 e -1) para assumir a raiz, atualizando os ponteiros e, no caso da AVL, executando as rotações em cascata para restaurar o balanceamento.
 
 ### 3.4 Testes de desempenho (Para Entrega 2)
 
@@ -111,4 +118,4 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 ## 5. Referências
 * Slides do professor
 * Apostila de estruturas de dados
-* Base de dados: [Fórmula 1 World Championship (1950-2020) - Kaggle](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020)
+* Base de dados: [Fórmula 1 World Championship (1950-2024) - Kaggle](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020)
