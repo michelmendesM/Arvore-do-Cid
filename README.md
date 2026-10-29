@@ -12,13 +12,13 @@ Entrega 1 de trabalho da disciplina Estruturas de Dados II — UNICID Prof. Cid 
 
 ## 1. Dataset
 
-### 1.1 Descrição
-O conjunto de dados se baseia nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e tempos de voltas das sessões de Qualificações (Q1, Q2, Q3). O formato original é CSV, contendo mais de 50.000 registros compostos.
+### 1.1 Descrição * valar numero exato
+O conjunto de dados se baseia nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e tempos de voltas das sessões de Qualificações (Q1, Q2, Q3). O formato original é CSV, contendo mais de 50.000* registros compostos.
 
-### 1.2 Fonte
-Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle: Fórmula 1 World Championship (1950-2024).
+### 1.2 Fonte * numero exato
+Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024).
 
-### 1.3 Estrutura dos dados
+### 1.3 Estrutura dos dados 
 * **chaveComposta (string):** Junção de Temporada + Circuito + NomePiloto + TipoSessao
 * **temporada (int):** Ano da corrida
 * **nomePiloto (string):** Nome do piloto
@@ -29,11 +29,11 @@ Os dados foram extraídos da base do projeto Ergast Developer API, disponível n
   
 **Ordem de Comparação e Tratamento de Duplicatas:**
 
-* **Comparador:** A ordem de grandeza será quem é maior/vai para a direita e quem é menor/vai para a esquerda. É definida explicitamente pela função `strcmp()` (que compara strings no C) aplicada sobre a `chaveComposta`.
+* **Comparador:** É definida explicitamente pela função `strcmp()` (em ordem alfabetica) aplicada sobre a `chaveComposta`.
 * **Tratamento de Chaves Repetidas:** Quando ocorrer uma chave idêntica a um nó já existente, a árvore não criará novos nós. O nó existente possuirá um ponteiro `next`, funcionando como uma lista encadeada simples interna, empilhando todos os tempos de volta referentes àquela mesma chave.
 
-### 1.4 Justificativa da escolha
-O dataset ultrapassa o volume mínimo de 50.000 registros. Também, a ordem cronológica dos dados da Fórmula 1 permite criar um cenário onde a performance sequencial causará a degradação da BST Simples, gerando o contraste perfeito com o balanceamento constante da AVL.
+### 1.4 Justificativa da escolha * numero exato
+O dataset ultrapassa o volume mínimo de 50.000* registros. Também, a ordem cronológica dos dados da Fórmula 1 permite criar um cenário onde a performance sequencial causará a degradação da BST Simples, gerando o contraste perfeito com o balanceamento constante da AVL.
 
 ---
 
@@ -41,7 +41,7 @@ O dataset ultrapassa o volume mínimo de 50.000 registros. Também, a ordem cron
 
 ### 2.1 Estrutura(s)
 BST Simples e Árvore AVL.
-;
+
 ### 2.2 Justificativa técnica
 As duas foram escolhidas para demonstrar comportamentos diferentes no dataset. A BST Simples não possui mecanismos de autoajuste, permitindo a demonstração do pior caso de O(n) quando dados ordenados por temporada são inseridos. A AVL foi escolhida para a manutenção teórica do O(log n) sob qualquer cenário, corrigindo desníveis de altura através de rotações mecânicas durante a carga de milhares de registros.
 
@@ -70,14 +70,14 @@ As duas foram escolhidas para demonstrar comportamentos diferentes no dataset. A
 
 ## 3. Plano de Testes
 
-### 3.1 Objetivo dos testes
+### 3.1 Objetivo dos testes* especificar
 O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das árvores. Os testes ocorrerão repetidas vezes na mesma máquina para garantir o *baseline*, alterando entre inserções aleatórias e estritamente ordenadas para provar a falha da estrutura não balanceada.
 
 ### 3.2 Cenários de teste
 
 | # | Cenário | Entrada | Resultado esperado | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | **Inserção Aleatória** | Leitura do arquivo CSV aleatório, executando em valores crescentes: 5.000, 10.000, 50.000 e até o fim do dataset. | Medição do tempo com relógio de alta resolução, altura final das árvores, número de comparações e contagem de rotações (AVL). | ☐ |
+| **1** | **Inserção Aleatória** | Leitura do arquivo CSV aleatório, executando em valores crescentes: 5.000, 10.000, 50.000 e até o fim do dataset. | Tempo de resposta imediato, altura final das árvores, número de comparações e contagem de rotações (AVL). | ☐ |
 | **2** | **Inserção Ordenada** | Leitura do arquivo CSV ordenado cronologicamente e crescente: 5.000, 10.000, 50.000 e até o fim do dataset. | Medir tempo de execução, altura e comparações. O gráfico traçará Tempo de execução vs Tamanho, tentando aproximar a BST de O(n) e a AVL a manter O(log n). | ☐ |
 | **3** | **Buscas e Remoções Intercaladas** | 50.000 operações exatas, sendo 80% de buscas e 20% de remoções. As chaves serão sorteadas com semente fixa para repetição. | Medição das operações intercaladas com relógio de alta resolução para conferir a estabilidade da árvore AVL sob stress de escrita e leitura. | ☐ |
 
