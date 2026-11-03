@@ -16,7 +16,7 @@ Entrega 1 de trabalho da disciplina Estruturas de Dados II — UNICID Prof. Cid 
 O conjunto de dados se baseia nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e tempos de voltas das sessões de Qualificações (Q1, Q2, Q3). O formato original é CSV, contendo mais de 50.000* registros compostos.
 
 ### 1.2 Fonte * numero exato
-Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024).
+Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024). https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020?resource=download
 
 ### 1.3 Estrutura dos dados 
 * **chaveComposta (string):** Junção de Temporada + Circuito + NomePiloto + TipoSessao
