@@ -32,8 +32,8 @@ Os dados foram extraídos da base do projeto Ergast Developer API, disponível n
 * **Comparador:** É definida explicitamente pela função `strcmp()` (em ordem alfabetica) aplicada sobre a `chaveComposta`.
 * **Tratamento de Chaves Repetidas:** Quando ocorrer uma chave idêntica a um nó já existente, a árvore não criará novos nós. O nó existente possuirá um ponteiro `next`, funcionando como uma lista encadeada simples interna, empilhando todos os tempos de volta referentes àquela mesma chave.
 
-### 1.4 Justificativa da escolha * numero exato
-O dataset ultrapassa o volume mínimo de 50.000* registros. Também, a ordem cronológica dos dados da Fórmula 1 permite criar um cenário onde a performance sequencial causará a degradação da BST Simples, gerando o contraste perfeito com o balanceamento constante da AVL.
+### 1.4 Justificativa da escolha
+O dataset tem o volume de 37.254 registros. Também, a ordem cronológica dos dados da Fórmula 1 permite criar um cenário onde a performance sequencial causará a degradação da BST Simples, gerando o contraste perfeito com o balanceamento constante da AVL.
 
 ---
 
