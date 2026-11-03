@@ -75,7 +75,7 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 
 ### 3.2 Cenários de teste
 
-CenárioEntradaResultado EsperadoStatus1Inserção AleatóriaLeitura de lotes incrementais de dados do CSV (ex: 1.000, 5.000 e até ~7.100 registros, respeitando os limites operacionais dos ambientes online).Medição do tempo de resposta, altura final das árvores, número de comparações e contagem de rotações (AVL).2Inserção OrdenadaLeitura do arquivo CSV ordenado cronologicamente e de forma crescente em lotes progressivos.Medição de tempo de execução, altura e comparações. Comparação do comportamento linear do BST $O(n)$ versus a estabilidade da AVL $O(\log n)$.☑3Buscas e RemoçõesOperações intercaladas de busca e remoção sobre o conjunto de dados carregado.Verificação da estabilidade estrutural e integridade dos ponteiros da árvore AVL e BST sob estresse de manipulação.
+CenárioEntradaResultado EsperadoStatus1Inserção AleatóriaLeitura de lotes incrementais de dados do CSV (ex: 1.000, 5.000 e até ~7.100 registros, respeitando os limites operacionais dos ambientes online).Medição do tempo de resposta, altura final das árvores, número de comparações e contagem de rotações (AVL).2Inserção OrdenadaLeitura do arquivo CSV ordenado cronologicamente e de forma crescente em lotes progressivos.Medição de tempo de execução, altura e comparações. Comparação do comportamento linear do BST $O(n)$ versus a estabilidade da AVL $O(\log n)$.3Buscas e RemoçõesOperações intercaladas de busca e remoção sobre o conjunto de dados carregado.Verificação da estabilidade estrutural e integridade dos ponteiros da árvore AVL e BST sob estresse de manipulação.
 
 ### 3.4 Testes de desempenho (Para Entrega 2)
 Metodologia de Testes e Desempenho
