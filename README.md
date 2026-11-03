@@ -13,7 +13,7 @@ Entrega 1 de trabalho da disciplina Estruturas de Dados II — UNICID Prof. Cid 
 ## 1. Dataset
 
 ### 1.1 Descrição * valar numero exato
-O conjunto de dados se baseia nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e tempos de voltas das sessões de Qualificações (Q1, Q2, Q3). O formato original é CSV, contendo mais de 50.000* registros compostos.
+O conjunto de dados se baseia nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e tempos de voltas das sessões de Qualificações (Q1, Q2, Q3). O formato original é CSV, contendo mais de 30.000* registros compostos.
 
 ### 1.2 Fonte * numero exato
 Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024). https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020?resource=download
@@ -92,20 +92,50 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 * **Comportamento esperado:** A árvore deverá escolher corretamente o próximo dado ou o anterior(+1 e -1) para assumir a raiz, atualizando os ponteiros e, no caso da AVL, executando as rotações em cascata para restaurar o balanceamento.
 
 ### 3.4 Testes de desempenho (Para Entrega 2)
+Metodologia de Testes e Desempenho
+Ambiente de Execução e Compiladores:
+Os testes de desempenho foram conduzidos utilizando três principais compiladores online baseados em navegador JDoodle, OneCompiler e OnlineGDB, os quais possuem características de gerenciamento de recursos e execução distintas.
+
+Ferramenta de Medição de Tempo:
+O tempo de execução foi registrado com o auxílio do software de cronometragem LiveSplit (livesplit.org).
+
+Tamanhos de Entrada:
+Os testes foram estruturados de forma incremental, avaliando o comportamento dos algoritmos sob diferentes cargas de trabalho até alcançar o limite de processamento dos ambientes, com lotes de testes de 10.000 registros, mesmo não atingindo o número alocado.
+
+Estrutura dos Dados de Entrada:
+O conjunto de dados utilizado nos testes contemplava os seguintes atributos por registro:
+
+chaveComposta (string): Junção de Temporada + Circuito + NomePiloto + TipoSessao
+temporada (int): Ano da corrida
+nomePiloto (string): Nome do piloto
+circuito (string): Nome da pista
+tipoSessao (char): 'C' para Corrida, 'Q' para Qualificação
+posicaoFinal (int): Posição final na sessão
+tempoVolta: Tempo registrado na sessão
 
 
 ### 3.5 Resultados obtidos (Para Entrega 2)
-
+Para avaliar o desempenho prático frente à complexidade assintótica teórica, executaram-se testes comparativos entre a Árvore Binária de Busca (BST) simples e a Árvore AVL nos ambientes JDoodle, OneCompiler e OnlineGDB, cujos logs completos estão armazenados na pasta /resultados.
+Nos testes, o JDoodle limitou a execução a 300 dados (0,02 s; 24 KB em ambas). No OneCompiler, a BST processou 7.032 dados em 0,80 s e a AVL 7.106 dados em 0,92 s (ambas com 1.048 KB de memória total e saída truncada em 256 KB). No OnlineGDB, a BST processou ~6.500 dados em 13,40 s e a AVL 6.843 dados em 14,06 s (1.024 KB de memória).
+Teoricamente, enquanto a BST no pior caso degrada para complexidade linear $\mathcal{O}(N)$, a AVL garante limite logarítmico $\mathcal{O}(\log N)$ devido ao rebalanceamento por rotações. Praticamente, para volumes de até ~7.100 dados, a BST superou levemente a AVL em tempo devido ao overhead de processamento das rotações. Além disso, a discrepância de tempo entre as plataformas (ex.: 0,80 s no OneCompiler vs. 13,40 s no OnlineGDB) indica que os limites de CPU e buffers de I/O das ferramentas online impactaram mais os resultados do que a própria diferença algorítmica.
 
 ---
 
 ## 4. Como Executar
 
 ### 4.1 Pré-requisitos (Para Entrega 2)
-
+Linguagem: C
+Versão: Versão 26H2 (Windows 11 2026 Update) ||
+Chrome: 156.8078.80
+Dependencias necessárias: Nenhuma
 
 ### 4.2 Instruções (Para Entrega 2)
+src (código) <https://github.com/michelmendesM/Arvore-do-Cid/tree/main/src>
+dataset (dados utilizados) <https://github.com/michelmendesM/Arvore-do-Cid/tree/main/dataset>
 
+Há uma linha bem abaixo do código fonte marcando onde
+colocar os dados, os dados precisam ser da lista
+equivalente (código fonte BST simples com dados BST)
 
 ### 4.3 Estrutura do repositório 
 * `/src` → código-fonte
