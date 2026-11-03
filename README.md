@@ -75,21 +75,7 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 
 ### 3.2 Cenários de teste
 
-| # | Cenário | Entrada | Resultado esperado | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **1** | **Inserção Aleatória** | Leitura do arquivo CSV aleatório, executando em valores crescentes: 5.000, 10.000, 50.000 e até o fim do dataset. | Tempo de resposta imediato, altura final das árvores, número de comparações e contagem de rotações (AVL). | ☐ |
-| **2** | **Inserção Ordenada** | Leitura do arquivo CSV ordenado cronologicamente e crescente: 5.000, 10.000, 50.000 e até o fim do dataset. | Medir tempo de execução, altura e comparações. O gráfico traçará Tempo de execução vs Tamanho, tentando aproximar a BST de O(n) e a AVL a manter O(log n). | ☐ |
-| **3** | **Buscas e Remoções Intercaladas** | 50.000 operações exatas, sendo 80% de buscas e 20% de remoções. As chaves serão sorteadas com semente fixa para repetição. | Medição das operações intercaladas com relógio de alta resolução para conferir a estabilidade da árvore AVL sob stress de escrita e leitura. | ☐ |
-
-### 3.3 Casos extremos (edge cases)
-* **Inserção Crescente (Pior caso BST):** Dados de Fórmula 1 inseridos cronologicamente de 1950 a 2024 forçando o formato de lista.
-* **Comportamento esperado:** A BST não balanceada perderá a sua característica de ramificação, degradando-se para o formato de uma lista linear (O(n)).
-* **Chaves Duplicadas:** Inserção de dados que possuem a mesma chave.
-* **Comportamento esperado:** A árvore não criará nós repetidos nem ocorrerá erros. Mas sim ela armazenará os registros subsequentes dentro de uma lista encadeada interna pertencente ao nó original.
-* **Chave Inexistente (profundidade máxima):** Tentar percorrer a árvore inteira buscando um piloto fictício para forçar a busca de profundidade máxima.
-* **Comportamento esperado:** Forçará o algoritmo a percorrer os nós da árvore até atingir a profundidade máxima antes de retornar para o usuário que há falha.
-* **Remoção da Raiz:** Solicitar a exclusão do nó principal logo após o carregamento completo dos milhares de dados.
-* **Comportamento esperado:** A árvore deverá escolher corretamente o próximo dado ou o anterior(+1 e -1) para assumir a raiz, atualizando os ponteiros e, no caso da AVL, executando as rotações em cascata para restaurar o balanceamento.
+CenárioEntradaResultado EsperadoStatus1Inserção AleatóriaLeitura de lotes incrementais de dados do CSV (ex: 1.000, 5.000 e até ~7.100 registros, respeitando os limites operacionais dos ambientes online).Medição do tempo de resposta, altura final das árvores, número de comparações e contagem de rotações (AVL).☑2Inserção OrdenadaLeitura do arquivo CSV ordenado cronologicamente e de forma crescente em lotes progressivos.Medição de tempo de execução, altura e comparações. Comparação do comportamento linear do BST $O(n)$ versus a estabilidade da AVL $O(\log n)$.☑3Buscas e RemoçõesOperações intercaladas de busca e remoção sobre o conjunto de dados carregado.Verificação da estabilidade estrutural e integridade dos ponteiros da árvore AVL e BST sob estresse de manipulação.
 
 ### 3.4 Testes de desempenho (Para Entrega 2)
 Metodologia de Testes e Desempenho
@@ -115,9 +101,7 @@ tempoVolta: Tempo registrado na sessão
 
 
 ### 3.5 Resultados obtidos (Para Entrega 2)
-Para avaliar o desempenho prático frente à complexidade assintótica teórica, executaram-se testes comparativos entre a Árvore Binária de Busca (BST) simples e a Árvore AVL nos ambientes JDoodle, OneCompiler e OnlineGDB, cujos logs completos estão armazenados na pasta /resultados.
-Nos testes, o JDoodle limitou a execução a 300 dados (0,02 s; 24 KB em ambas). No OneCompiler, a BST processou 7.032 dados em 0,80 s e a AVL 7.106 dados em 0,92 s (ambas com 1.048 KB de memória total e saída truncada em 256 KB). No OnlineGDB, a BST processou ~6.500 dados em 13,40 s e a AVL 6.843 dados em 14,06 s (1.024 KB de memória).
-Teoricamente, enquanto a BST no pior caso degrada para complexidade linear $\mathcal{O}(N)$, a AVL garante limite logarítmico $\mathcal{O}(\log N)$ devido ao rebalanceamento por rotações. Praticamente, para volumes de até ~7.100 dados, a BST superou levemente a AVL em tempo devido ao overhead de processamento das rotações. Além disso, a discrepância de tempo entre as plataformas (ex.: 0,80 s no OneCompiler vs. 13,40 s no OnlineGDB) indica que os limites de CPU e buffers de I/O das ferramentas online impactaram mais os resultados do que a própria diferença algorítmica.
+Para avaliar o desempenho prático frente à complexidade assintótica teórica, executei testes comparativos entre a Árvore Binária de Busca (BST) simples e a Árvore AVL utilizando ambientes de compilação online (JDoodle, OneCompiler e OnlineGDB), cujos logs completos estão armazenados na pasta /resultados. Devido a restrições de alocação de memória e tempo limite de execução dessas plataformas web para arquivos grandes, os testes foram conduzidos com lotes de dados de até ~7.100 registros.No OneCompiler, a BST processou 7.032 dados em 0,80s e a AVL processou 7.106 dados em 0,92s (ambas consumindo cerca de 1.048 KB de memória). Teoricamente, enquanto a BST degrada para $O(n)$ em inserções ordenadas, a AVL garante o limite logarítmico $O(\log n)$ por meio de rotações. Praticamente, para este volume de ~7.000 registros, a BST obteve um tempo ligeiramente inferior devido à ausência do overhead de cálculo de balanceamento da AVL. No entanto, as variações de desempenho entre as ferramentas (como os tempos maiores no OnlineGDB) evidenciam que o comportamento do ambiente virtual de execução impactou os testes locais.
 
 ---
 
