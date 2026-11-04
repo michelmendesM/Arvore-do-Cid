@@ -1,0 +1,99 @@
+//BST Simples
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Estrutura para os dados da volta/sessão (lista encadeada interna para chaves repetidas)
+typedef struct LapEntry {
+    int temporada;
+    char circuito[100];
+    char nomePiloto[100];
+    char tipoSessao; // 'C' para Corrida, 'Q' para Qualificação
+    int posicaoFinal;
+    float tempoVolta;
+    struct LapEntry* next;
+} LapEntry;
+
+// Nó da BST Simples
+typedef struct NodeBST {
+    char chaveComposta[300]; // Temporada + Circuito + NomePiloto + TipoSessao
+    LapEntry* dados;         // Cabeça da lista encadeada de registros
+    struct NodeBST* esquerda;
+    struct NodeBST* direita;
+} NodeBST;
+
+// Função auxiliar para criar um novo registro de dados
+LapEntry* criarLapEntry(int temporada, const char* circuito, const char* nomePiloto, char tipoSessao, int posicaoFinal, float tempoVolta) {
+    LapEntry* novo = (LapEntry*)malloc(sizeof(LapEntry));
+    novo->temporada = temporada;
+    strcpy(novo->circuito, circuito);
+    strcpy(novo->nomePiloto, nomePiloto);
+    novo->tipoSessao = tipoSessao;
+    novo->posicaoFinal = posicaoFinal;
+    novo->tempoVolta = tempoVolta;
+    novo->next = NULL;
+    return novo;
+}
+
+// Função auxiliar para criar um novo nó da BST
+NodeBST* criarNodeBST(const char* chaveComposta, int temporada, const char* circuito, const char* nomePiloto, char tipoSessao, int posicaoFinal, float tempoVolta) {
+    NodeBST* novo = (NodeBST*)malloc(sizeof(NodeBST));
+    strcpy(novo->chaveComposta, chaveComposta);
+    novo->dados = criarLapEntry(temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+    novo->esquerda = NULL;
+    novo->direita = NULL;
+    return novo;
+}
+
+// Função principal de inserção (adicionar dados) na BST Simples
+NodeBST* inserirBST(NodeBST* raiz, const char* chaveComposta, int temporada, const char* circuito, const char* nomePiloto, char tipoSessao, int posicaoFinal, float tempoVolta) {
+    if (raiz == NULL) {
+        return criarNodeBST(chaveComposta, temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+    }
+
+    int comp = strcmp(chaveComposta, raiz->chaveComposta);
+
+    if (comp < 0) {
+        raiz->esquerda = inserirBST(raiz->esquerda, chaveComposta, temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+    } else if (comp > 0) {
+        raiz->direita = inserirBST(raiz->direita, chaveComposta, temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+    } else {
+        // Tratamento de Chaves Duplicadas: Empilha na lista encadeada interna do nó existente
+        LapEntry* novoRegistro = criarLapEntry(temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+        novoRegistro->next = raiz->dados;
+        raiz->dados = novoRegistro;
+    }
+
+    return raiz;
+}
+
+// Função para exibir a árvore em ordem (In-Order) para teste
+void exibirBST(NodeBST* raiz) {
+    if (raiz != NULL) {
+        exibirBST(raiz->esquerda);
+        printf("Chave Composta: %s\n", raiz->chaveComposta);
+        LapEntry* atual = raiz->dados;
+        while (atual != NULL) {
+            printf("   -> Piloto: %s | Tempo: %.3fs | Pos: %d\n", atual->nomePiloto, atual->tempoVolta, atual->posicaoFinal);
+            atual = atual->next;
+        }
+        exibirBST(raiz->direita);
+    }
+}
+
+// Função principal
+int main() {
+    NodeBST* raiz = NULL;
+
+    // ↓↓↓ Inserir dados de teste aqui ↓↓↓
+
+    //raiz = inserirBST(raiz, "2024_AutodromoEnzoeDinoFerrari_Piastri_Q", 2024, "Autodromo Enzo e Dino Ferrari", "Piastri", 'Q', 2, 74.820f);
+
+    //↑↑↑ AQUI ↑↑↑
+
+    printf("=== CONTEUDO DA BST SIMPLES ===\n");
+    exibirBST(raiz);
+
+    return 0;
+}

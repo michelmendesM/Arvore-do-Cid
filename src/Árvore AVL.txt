@@ -1,0 +1,179 @@
+//Árvore AVL
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Estrutura para os dados da volta/sessão (lista encadeada interna para chaves repetidas)
+typedef struct LapEntry {
+    int temporada;
+    char circuito[100];
+    char nomePiloto[100];
+    char tipoSessao; // 'C' para Corrida, 'Q' para Qualificação
+    int posicaoFinal;
+    float tempoVolta;
+    struct LapEntry* next;
+} LapEntry;
+
+// Nó da Árvore AVL
+typedef struct NodeAVL {
+    char chaveComposta[300]; // Temporada + Circuito + NomePiloto + TipoSessao
+    LapEntry* dados;         // Cabeça da lista encadeada de registros
+    int altura;              // Altura do nó para cálculo do fator de balanceamento
+    struct NodeAVL* esquerda;
+    struct NodeAVL* direita;
+} NodeAVL;
+
+// Função auxiliar para criar um novo registro de dados
+LapEntry* criarLapEntry(int temporada, const char* circuito, const char* nomePiloto, char tipoSessao, int posicaoFinal, float tempoVolta) {
+    LapEntry* novo = (LapEntry*)malloc(sizeof(LapEntry));
+    novo->temporada = temporada;
+    strcpy(novo->circuito, circuito);
+    strcpy(novo->nomePiloto, nomePiloto);
+    novo->tipoSessao = tipoSessao;
+    novo->posicaoFinal = posicaoFinal;
+    novo->tempoVolta = tempoVolta;
+    novo->next = NULL;
+    return novo;
+}
+
+// Função auxiliar para retornar a altura de um nó
+int alturaAVL(NodeAVL* n) {
+    if (n == NULL) return 0;
+    return n->altura;
+}
+
+// Função auxiliar para retornar o maior entre dois inteiros
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+// Função auxiliar para criar um novo nó da AVL
+NodeAVL* criarNodeAVL(const char* chaveComposta, int temporada, const char* circuito, const char* nomePiloto, char tipoSessao, int posicaoFinal, float tempoVolta) {
+    NodeAVL* novo = (NodeAVL*)malloc(sizeof(NodeAVL));
+    strcpy(novo->chaveComposta, chaveComposta);
+    novo->dados = criarLapEntry(temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+    novo->altura = 1; // Novo nó inicia com altura 1 (folha)
+    novo->esquerda = NULL;
+    novo->direita = NULL;
+    return novo;
+}
+
+// Rotação Simples à Direita
+NodeAVL* rotacaoDireita(NodeAVL* y) {
+    NodeAVL* x = y->esquerda;
+    NodeAVL* T2 = x->direita;
+
+    // Realiza a rotação
+    x->direita = y;
+    y->esquerda = T2;
+
+    // Atualiza as alturas
+    y->altura = max(alturaAVL(y->esquerda), alturaAVL(y->direita)) + 1;
+    x->altura = max(alturaAVL(x->esquerda), alturaAVL(x->direita)) + 1;
+
+    return x;
+}
+
+// Rotação Simples à Esquerda
+NodeAVL* rotacaoEsquerda(NodeAVL* x) {
+    NodeAVL* y = x->direita;
+    NodeAVL* T2 = y->esquerda;
+
+    // Realiza a rotação
+    y->esquerda = x;
+    x->direita = T2;
+
+    // Atualiza as alturas
+    x->altura = max(alturaAVL(x->esquerda), alturaAVL(x->direita)) + 1;
+    y->altura = max(alturaAVL(y->esquerda), alturaAVL(y->direita)) + 1;
+
+    return y;
+}
+
+// Calcula o fator de balanceamento de um nó
+int fatorBalanceamento(NodeAVL* n) {
+    if (n == NULL) return 0;
+    return alturaAVL(n->esquerda) - alturaAVL(n->direita);
+}
+
+// Função principal de inserção na Árvore AVL
+NodeAVL* inserirAVL(NodeAVL* raiz, const char* chaveComposta, int temporada, const char* circuito, const char* nomePiloto, char tipoSessao, int posicaoFinal, float tempoVolta) {
+    // 1. Inserção normal de BST
+    if (raiz == NULL)
+        return criarNodeAVL(chaveComposta, temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+
+    int comp = strcmp(chaveComposta, raiz->chaveComposta);
+
+    if (comp < 0)
+        raiz->esquerda = inserirAVL(raiz->esquerda, chaveComposta, temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+    else if (comp > 0)
+        raiz->direita = inserirAVL(raiz->direita, chaveComposta, temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+    else {
+        // Tratamento de Chaves Duplicadas: Empilha na lista encadeada interna do nó existente[cite: 1]
+        LapEntry* novoRegistro = criarLapEntry(temporada, circuito, nomePiloto, tipoSessao, posicaoFinal, tempoVolta);
+        novoRegistro->next = raiz->dados;
+        raiz->dados = novoRegistro;
+        return raiz;
+    }
+
+    // 2. Atualiza a altura do ancestral atual
+    raiz->altura = 1 + max(alturaAVL(raiz->esquerda), alturaAVL(raiz->direita));
+
+    // 3. Obtém o fator de balanceamento para verificar se desbalanceou
+    int balance = fatorBalanceamento(raiz);
+
+    // 4. Casos de Correção (Rotações)
+
+    // Caso Esquerda-Esquerda (Left Left)
+    if (balance > 1 && strcmp(chaveComposta, raiz->esquerda->chaveComposta) < 0)
+        return rotacaoDireita(raiz);
+
+    // Caso Direita-Direita (Right Right)
+    if (balance < -1 && strcmp(chaveComposta, raiz->direita->chaveComposta) > 0)
+        return rotacaoEsquerda(raiz);
+
+    // Caso Esquerda-Direita (Left Right)
+    if (balance > 1 && strcmp(chaveComposta, raiz->esquerda->chaveComposta) > 0) {
+        raiz->esquerda = rotacaoEsquerda(raiz->esquerda);
+        return rotacaoDireita(raiz);
+    }
+
+    // Caso Direita-Esquerda (Right Left)
+    if (balance < -1 && strcmp(chaveComposta, raiz->direita->chaveComposta) < 0) {
+        raiz->direita = rotacaoDireita(raiz->direita);
+        return rotacaoEsquerda(raiz);
+    }
+
+    return raiz;
+}
+
+// Função para exibir a árvore AVL em ordem (In-Order) mostrando altura e dados
+void exibirAVL(NodeAVL* raiz) {
+    if (raiz != NULL) {
+        exibirAVL(raiz->esquerda);
+        printf("Chave Composta: %s (Altura: %d)\n", raiz->chaveComposta, raiz->altura);
+        LapEntry* atual = raiz->dados;
+        while (atual != NULL) {
+            printf("   -> Piloto: %s | Tempo: %.3fs | Pos: %d\n", atual->nomePiloto, atual->tempoVolta, atual->posicaoFinal);
+            atual = atual->next;
+        }
+        exibirAVL(raiz->direita);
+    }
+}
+
+// Função principal de teste
+int main() {
+    NodeAVL* raiz = NULL;
+
+    // ↓↓↓ Inserir dados de teste aqui ↓↓↓
+
+    //raiz = inserirAVL(raiz, "2024_Monaco_Verstappen_Q", 2024, "Monaco", "Verstappen", 'Q', 1, 71.368f);
+
+    //↑↑↑ AQUI ↑↑↑
+
+    printf("=== CONTEUDO DA ÁRVORE AVL (Auto-balanceada) ===\n");
+    exibirAVL(raiz);
+
+    return 0;
+}
