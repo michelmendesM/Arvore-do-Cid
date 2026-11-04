@@ -17,7 +17,7 @@ O conjunto de dados baseia-se nos pilotos da Fórmula 1 desde sua criação em 1
 
 
 ### 1.2 Fonte 
-Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024). https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2024/resource=download
+Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024). https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2024
 
 ### 1.3 Estrutura dos dados 
 * **chaveComposta (string):** Junção de Temporada + Circuito + NomePiloto
