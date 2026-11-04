@@ -76,10 +76,8 @@ As duas estruturas foram escolhidas para demonstrar desempenhos matemáticos opo
 
 ## 3. Plano de Testes
 
-### 3.1 Objetivo dos testes* especificar
+### 3.1 Objetivo dos testes
 O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das árvores. Os testes ocorrerão repetidas vezes na mesma máquina , alterando entre inserções aleatórias e estritamente ordenadas para provar a falha da estrutura não balanceada.
-
-### 3.2 Cenários de teste
 
 ### 3.2 Cenários de teste
 
