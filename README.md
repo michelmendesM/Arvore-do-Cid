@@ -13,17 +13,17 @@ Entrega 1 de trabalho da disciplina Estruturas de Dados II — UNICID Prof. Cid 
 ## 1. Dataset
 
 ### 1.1 Descrição 
-O conjunto de dados baseia-se nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e a tabela de classificação dos piltos. O formato original é CSV, contendo mais de 37.254 registros compostos.
-
+O conjunto de dados baseia-se nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e os tempos das sessões de Qualificação. O formato original é CSV, contendo o volume exato de 37.254 registros compostos.
 
 ### 1.2 Fonte 
 Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024). [Fórmula 1 World Championship (1950-2024)](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020).
 
 ### 1.3 Estrutura dos dados 
-* **chaveComposta (string):** Junção de Temporada + Circuito + NomePiloto
+* **chaveComposta (string):** Junção de Temporada + Circuito + NomePiloto + TipoSessao
 * **temporada (int):** Ano da corrida
 * **nomePiloto (string):** Nome do piloto
 * **circuito (string):** Nome da pista
+* **tipoSessao (char):** 'C' para Corrida, 'Q' para Qualificação
 * **posicaoFinal (int):** Posição final na sessão
 * **tempoVolta (float):** Tempo em segundos
   
@@ -77,7 +77,7 @@ As duas estruturas foram escolhidas para demonstrar desempenhos matemáticos opo
 ## 3. Plano de Testes
 
 ### 3.1 Objetivo dos testes
-O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das árvores. Os testes ocorrerão repetidas vezes na mesma máquina , alterando entre inserções aleatórias e estritamente ordenadas para provar a falha da estrutura não balanceada.
+O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das árvores. Os testes ocorrerão repetidas vezes na mesma máquina, alterando entre inserções aleatórias e estritamente ordenadas para provar a falha da estrutura não balanceada.
 
 ### 3.2 Cenários de teste
 
@@ -91,13 +91,12 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 
 * **Inserção Crescente (Pior caso BST):** Dados de Fórmula 1 inseridos cronologicamente de 1950 a 2024 forçando o formato de lista.
   * **Comportamento esperado:** A BST não balanceada perderá a sua característica de ramificação, degradando-se para o formato de uma lista linear (O(n)).
-* **Chaves Duplicadas:** Inserção de dados que possuem a mesma chave Ano_Circuito_Piloto.
-  * **Comportamento esperado:** A árvore não criará nós repetidos nem ocorrerão erros. Ela armazenará os registros subsequentes dentro de uma lista encadeada interna pertencente ao nó original (Empilhando o Status da Corrida e o Status do Campeonato).
+* **Chaves Duplicadas:** Inserção de dados que possuem a mesma chave `Ano_Circuito_Piloto_Sessao`.
+  * **Comportamento esperado:** A árvore não criará nós repetidos nem ocorrerão erros. Ela armazenará os registros subsequentes dentro de uma lista encadeada interna pertencente ao nó original (Empilhando os Status daquela sessão).
 * **Busca Falha (Árvore Vazia ou Chave Inexistente):** Tentar percorrer a árvore buscando um piloto fictício ou realizar busca antes da raiz possuir dados.
-  * **Comportamento esperado:** O algoritmo deverá tratar a ausência de dados em segurança, percorrendo até à profundidade máxima ou travando na raiz nula, retornando falha sem quebrar o sistema (sem *Segmentation Fault*).
+  * **Comportamento esperado:** O algoritmo deverá tratar a ausência de dados em segurança, percorrendo até à profundidade máxima ou travando na raiz nula, retornando falha sem quebrar o sistema (sem Segmentation Fault).
 * **Remoção da Raiz:** Solicitar a exclusão do nó principal logo após o carregamento completo.
   * **Comportamento esperado:** A árvore deverá escolher corretamente o predecessor/sucessor (+1 e -1: próximo dado ou o anterior) para assumir a raiz, atualizando os ponteiros e executando as rotações em cascata (AVL).
-  
 ### 3.4 Testes de desempenho (Para Entrega 2)
 Metodologia de Testes e Desempenho
 Ambiente de Execução e Compiladores:
