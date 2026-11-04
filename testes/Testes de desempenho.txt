@@ -1,0 +1,22 @@
+Testes de desempenho
+
+Metodologia de Testes e Desempenho
+Ambiente de Execução e Compiladores:
+Os testes de desempenho foram conduzidos utilizando três principais compiladores online baseados em navegador JDoodle, OneCompiler e OnlineGDB, os quais possuem características de gerenciamento de recursos e execução distintas.
+
+Ferramenta de Medição de Tempo:
+O tempo de execução foi registrado com o auxílio do software de cronometragem LiveSplit (livesplit.org).
+
+Tamanhos de Entrada:
+Os testes foram estruturados de forma incremental, avaliando o comportamento dos algoritmos sob diferentes cargas de trabalho até alcançar o limite de processamento dos ambientes, com lotes de testes de 10.000 registros, mesmo não atingindo o número alocado.
+
+Estrutura dos Dados de Entrada:
+O conjunto de dados utilizado nos testes contemplava os seguintes atributos por registro:
+
+chaveComposta (string): Junção de Temporada + Circuito + NomePiloto + TipoSessao
+temporada (int): Ano da corrida
+nomePiloto (string): Nome do piloto
+circuito (string): Nome da pista
+tipoSessao (char): 'C' para Corrida, 'R' para Qualificação
+posicaoFinal (int): Posição final na sessão
+tempoVolta: Tempo registrado na sessão
