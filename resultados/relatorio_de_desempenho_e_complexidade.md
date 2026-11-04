@@ -39,22 +39,7 @@ OneCompiler (N~7k)    | 0.80s (BST) / 0.92s (AVL)
 OnlineGDB   (N~6.5k-6.8k)| 13.40s (BST) / 14.06s (AVL)
 ```
 
----
-
-## 3. Arquivos de Saída Gerados
-
-Os logs detalhados e medições brutas foram organizados na pasta `/resultados`:
-
-* [`/resultados/bst_jdoodle_300.log`](./resultados/bst_jdoodle_300.log) — Log de saída do teste BST no JDoodle ($N=300$).
-* [`/resultados/bst_onecompiler_7032.log`](./resultados/bst_onecompiler_7032.log) — Log de saída do teste BST no OneCompiler ($N=7032$).
-* [`/resultados/bst_onlinegdb_6500.log`](./resultados/bst_onlinegdb_6500.log) — Log de saída do teste BST no OnlineGDB ($N \approx 6500$).
-* [`/resultados/avl_jdoodle_300.log`](./resultados/avl_jdoodle_300.log) — Log de saída do teste AVL no JDoodle ($N=300$).
-* [`/resultados/avl_onecompiler_7106.log`](./resultados/avl_onecompiler_7106.log) — Log de saída do teste AVL no OneCompiler ($N=7106$).
-* [`/resultados/avl_onlinegdb_6843.log`](./resultados/avl_onlinegdb_6843.log) — Log de saída do teste AVL no OnlineGDB ($N=6843$).
-
----
-
-## 4. Análise de Complexidade Assintótica (Big-O)
+## 3. Análise de Complexidade Assintótica (Big-O)
 
 ### Complexidade Teórica
 
