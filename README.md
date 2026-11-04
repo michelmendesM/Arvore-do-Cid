@@ -12,18 +12,18 @@ Entrega 1 de trabalho da disciplina Estruturas de Dados II — UNICID Prof. Cid 
 
 ## 1. Dataset
 
-### 1.1 Descrição * valar numero exato
-O conjunto de dados se baseia nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e tempos de voltas das sessões de Qualificações (Q1, Q2, Q3). O formato original é CSV, contendo mais de 30.000* registros compostos.
+### 1.1 Descrição 
+O conjunto de dados baseia-se nos pilotos da Fórmula 1 desde sua criação em 1950 até 2024. O dataset reúne informações do resultado das corridas e a tabela de classificação dos piltos. O formato original é CSV, contendo mais de 37.254 registros compostos.
 
-### 1.2 Fonte * numero exato
-Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024). https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020?resource=download
+
+### 1.2 Fonte 
+Os dados foram extraídos da base do projeto Ergast Developer API, disponível no Kaggle:* Fórmula 1 World Championship (1950-2024). https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2024?resource=download
 
 ### 1.3 Estrutura dos dados 
-* **chaveComposta (string):** Junção de Temporada + Circuito + NomePiloto + TipoSessao
+* **chaveComposta (string):** Junção de Temporada + Circuito + NomePiloto
 * **temporada (int):** Ano da corrida
 * **nomePiloto (string):** Nome do piloto
 * **circuito (string):** Nome da pista
-* **tipoSessao (char):** 'C' para Corrida, 'Q' para Qualificação
 * **posicaoFinal (int):** Posição final na sessão
 * **tempoVolta (float):** Tempo em segundos
   
@@ -35,7 +35,7 @@ Os dados foram extraídos da base do projeto Ergast Developer API, disponível n
 ### 1.4 Justificativa da escolha
 O dataset tem o volume de 37.254 registros. Também, a ordem cronológica dos dados da Fórmula 1 permite criar um cenário onde a performance sequencial causará a degradação da BST Simples, gerando o contraste perfeito com o balanceamento constante da AVL.
 
----
+
 
 ## 2. Estrutura(s) de Árvore Escolhida(s)
 
@@ -43,10 +43,16 @@ O dataset tem o volume de 37.254 registros. Também, a ordem cronológica dos da
 BST Simples e Árvore AVL.
 
 ### 2.2 Justificativa técnica
-As duas foram escolhidas para demonstrar comportamentos diferentes no dataset. A BST Simples não possui mecanismos de autoajuste, permitindo a demonstração do pior caso de O(n) quando dados ordenados por temporada são inseridos. A AVL foi escolhida para a manutenção teórica do O(log n) sob qualquer cenário, corrigindo desníveis de altura através de rotações mecânicas durante a carga de milhares de registros.
+As duas estruturas foram escolhidas para demonstrar desempenhos matemáticos opostos sob o mesmo dataset. A BST Simples não possui mecanismos de autoajuste, permitindo a demonstração do seu pior cenário algorítmico, degradando-se para O(n) quando dados estritamente ordenados são inseridos. A AVL foi escolhida para demonstrar a manutenção teórica da eficiência em O(log n) sob qualquer cenário, corrigindo desníveis de altura através das suas rotações mecânicas durante a carga massiva dos milhares de registros.
 
 ### 2.3 Operações implementadas (Para Entrega 2)
 
+* **Inserção:** Adição de novos registros iterando o arquivo CSV em memória. Na BST Simples, os nós são alocados seguindo a regra estrita de roteamento binário ("menor à esquerda, maior à direita"). Na árvore AVL, a inserção engloba também a verificação de desnível e o reajuste automático da estrutura no caminho de volta da recursão.
+* **Remoção:** Exclusão de um nó específico a partir da busca pela chaveComposta, com tratamento estrutural para os três casos clássicos (nó folha, nó com um filho, e nó com dois filhos utilizando o menor valor da subárvore direita). Na árvore AVL, a operação inclui o rebalanceamento em cascata até à raiz após a exclusão.
+* **Busca:** Pesquisa binária utilizando a função strcmp() para roteamento. A função encontra o nó exato e imprime todo o conteúdo daquela chave, percorrendo a sua estrutura interna de dados.
+* **Percursos (pré-ordem, em ordem, pós-ordem):** Funções recursivas para navegação integral da árvore. O percurso *Em ordem* (In-Order) destaca-se neste projeto, pois extrai todo o banco de dados estruturado em estrita ordem alfabética (lexicográfica).
+* **Balanceamento (Árvore AVL):** Cálculo dinâmico da altura dos nós e do Fator de Balanceamento (FB). Inclui as funções de manobra mecânica para as quatro situações de desequilíbrio: Rotação Simples à Direita (LL), Rotação Simples à Esquerda (RR) e as Rotações Duplas (LR e RL), disparadas sempre que o FB for menor que -1 ou maior que 1.
+* **Outra: Tratamento de Chaves Duplicadas (Lista Encadeada Interna):** Mecanismo de resolução de colisões O(1). Quando uma inserção detecta uma chave idêntica já existente, a árvore aborta a criação de um novo nó. Em vez disso, os novos dados (ex: Posição do Campeonato) são empilhados no ponteiro next (no topo da lista) dentro da "gaveta" do nó original já existente na árvore.
 
 ### 2.4 Complexidade
 
@@ -71,12 +77,29 @@ As duas foram escolhidas para demonstrar comportamentos diferentes no dataset. A
 ## 3. Plano de Testes
 
 ### 3.1 Objetivo dos testes* especificar
-O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das árvores. Os testes ocorrerão repetidas vezes na mesma máquina para garantir o *baseline*, alterando entre inserções aleatórias e estritamente ordenadas para provar a falha da estrutura não balanceada.
+O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das árvores. Os testes ocorrerão repetidas vezes na mesma máquina , alterando entre inserções aleatórias e estritamente ordenadas para provar a falha da estrutura não balanceada.
 
 ### 3.2 Cenários de teste
 
-CenárioEntradaResultado EsperadoStatus1Inserção AleatóriaLeitura de lotes incrementais de dados do CSV (ex: 1.000, 5.000 e até ~7.100 registros, respeitando os limites operacionais dos ambientes online).Medição do tempo de resposta, altura final das árvores, número de comparações e contagem de rotações (AVL).2Inserção OrdenadaLeitura do arquivo CSV ordenado cronologicamente e de forma crescente em lotes progressivos.Medição de tempo de execução, altura e comparações. Comparação do comportamento linear do BST $O(n)$ versus a estabilidade da AVL $O(\log n)$.3Buscas e RemoçõesOperações intercaladas de busca e remoção sobre o conjunto de dados carregado.Verificação da estabilidade estrutural e integridade dos ponteiros da árvore AVL e BST sob estresse de manipulação.
+### 3.2 Cenários de teste
 
+| Cenário | Entrada | Resultado Esperado | Status |
+| :--- | :--- | :--- | :--- |
+| **1. Inserção Aleatória** | Leitura de lotes incrementais de dados desordenados do CSV (ex: 1.000, 5.000 e até ~7.100 registros máximos, respeitando rigorosamente os limites operacionais de memória dos ambientes de compilação online). | Medição do tempo exato de resposta em segundos (utilizando o software de cronometragem LiveSplit), registro da altura final das árvores, número de comparações e contagem de rotações efetuadas pela AVL. | ☐ |
+| **2. Inserção Ordenada** | Leitura do arquivo CSV previamente ordenado de forma cronológica e crescente (anos mais antigos para os mais novos), inserido em lotes progressivos. | Medição do tempo de execução em segundos, altura e comparações. O objetivo prático é comparar a degradação linear da BST, provando seu pior caso O(n), versus a estabilidade estrutural da AVL mantendo O(log n). | ☐ |
+| **3. Buscas e Remoções** | Operações intercaladas de busca (por chaves compostas específicas) e remoção de nós sobre o conjunto de dados já carregado. | Verificação da estabilidade estrutural (especialmente o rebalanceamento pós-remoção da AVL) e integridade dos ponteiros das árvores AVL e BST sob estresse de manipulação. | ☐ |
+
+#### 3.3 Casos extremos (edge cases)
+
+* **Inserção Crescente (Pior caso BST):** Dados de Fórmula 1 inseridos cronologicamente de 1950 a 2024 forçando o formato de lista.
+  * **Comportamento esperado:** A BST não balanceada perderá a sua característica de ramificação, degradando-se para o formato de uma lista linear (O(n)).
+* **Chaves Duplicadas:** Inserção de dados que possuem a mesma chave Ano_Circuito_Piloto.
+  * **Comportamento esperado:** A árvore não criará nós repetidos nem ocorrerão erros. Ela armazenará os registros subsequentes dentro de uma lista encadeada interna pertencente ao nó original (Empilhando o Status da Corrida e o Status do Campeonato).
+* **Busca Falha (Árvore Vazia ou Chave Inexistente):** Tentar percorrer a árvore buscando um piloto fictício ou realizar busca antes da raiz possuir dados.
+  * **Comportamento esperado:** O algoritmo deverá tratar a ausência de dados em segurança, percorrendo até à profundidade máxima ou travando na raiz nula, retornando falha sem quebrar o sistema (sem *Segmentation Fault*).
+* **Remoção da Raiz:** Solicitar a exclusão do nó principal logo após o carregamento completo.
+  * **Comportamento esperado:** A árvore deverá escolher corretamente o predecessor/sucessor (+1 e -1: próximo dado ou o anterior) para assumir a raiz, atualizando os ponteiros e executando as rotações em cascata (AVL).
+  
 ### 3.4 Testes de desempenho (Para Entrega 2)
 Metodologia de Testes e Desempenho
 Ambiente de Execução e Compiladores:
