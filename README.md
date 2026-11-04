@@ -1,5 +1,5 @@
 # Projeto Árvores - Fórmula 1
-Entrega 1 de trabalho da disciplina Estruturas de Dados II — UNICID Prof. Cid Rodrigues de Andrade
+Entrega do trabalho da disciplina Estruturas de Dados II — UNICID Prof. Cid Rodrigues de Andrade
 
 ## 👥 Integrantes do Grupo
 | Nome completo | RA |
@@ -81,11 +81,11 @@ O objetivo será comparar o desempenho absoluto e a estabilidade estrutural das 
 
 ### 3.2 Cenários de teste
 
-| Cenário | Entrada | Resultado Esperado | Status |
-| :--- | :--- | :--- | :--- |
-| **1. Inserção Aleatória** | Leitura de lotes incrementais de dados desordenados do CSV (ex: 1.000, 5.000 e até ~7.100 registros máximos, respeitando rigorosamente os limites operacionais de memória dos ambientes de compilação online). | Medição do tempo exato de resposta em segundos (utilizando o software de cronometragem LiveSplit), registro da altura final das árvores, número de comparações e contagem de rotações efetuadas pela AVL. | ☐ |
-| **2. Inserção Ordenada** | Leitura do arquivo CSV previamente ordenado de forma cronológica e crescente (anos mais antigos para os mais novos), inserido em lotes progressivos. | Medição do tempo de execução em segundos, altura e comparações. O objetivo prático é comparar a degradação linear da BST, provando seu pior caso O(n), versus a estabilidade estrutural da AVL mantendo O(log n). | ☐ |
-| **3. Buscas e Remoções** | Operações intercaladas de busca (por chaves compostas específicas) e remoção de nós sobre o conjunto de dados já carregado. | Verificação da estabilidade estrutural (especialmente o rebalanceamento pós-remoção da AVL) e integridade dos ponteiros das árvores AVL e BST sob estresse de manipulação. | ☐ |
+| # | Cenário | Entrada | Resultado esperado | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **1** | **Inserção Aleatória** | Leitura do arquivo CSV aleatório, executando em valores crescentes: 5.000, 10.000, 37.254. | Medição do tempo exato de resposta em segundos (utilizando o software de cronometragem LiveSplit), registro da altura final das árvores, número de comparações e contagem de rotações efetuadas pela AVL. | ☐ |
+| **2** | **Inserção Ordenada** | Leitura do arquivo CSV ordenado cronologicamente e crescente: 5.000, 10.000, 37.254. | Medição do tempo de execução em segundos, altura e comparações. O objetivo prático é comparar a degradação linear da BST, provando seu pior caso O(n), versus a estabilidade estrutural da AVL mantendo O(log n). | ☐ |
+| **3** | **Buscas e Remoções** | 37.254 operações exatas, sendo 80% de buscas e 20% de remoções. As chaves serão sorteadas com semente fixa para repetição. | Verificação da estabilidade estrutural (especialmente o rebalanceamento pós-remoção da AVL) e integridade dos ponteiros das árvores AVL e BST sob estresse de manipulação. | ☐ |
 
 #### 3.3 Casos extremos (edge cases)
 
@@ -134,8 +134,9 @@ Chrome: 156.8078.80
 Dependencias necessárias: Nenhuma
 
 ### 4.2 Instruções (Para Entrega 2)
-src (código) <https://github.com/michelmendesM/Arvore-do-Cid/tree/main/src>
-dataset (dados utilizados) <https://github.com/michelmendesM/Arvore-do-Cid/tree/main/dataset>
+Os códigos-fonte e os datasets podem ser encontrados nos seguintes diretórios:
+* **src (código):** https://github.com/michelmendesM/Arvore-do-Cid/tree/main/src
+* **dataset (dados utilizados):** https://github.com/michelmendesM/Arvore-do-Cid/tree/main/dataset
 
 Há uma linha bem abaixo do código fonte marcando onde
 colocar os dados, os dados precisam ser da lista
@@ -146,10 +147,8 @@ equivalente (código fonte BST simples com dados BST)
 * `/dataset` → dataset utilizado
 * `/testes` → scripts e casos de teste
 * `/resultados` → saídas e relatórios de desempenho
-* `TemplateReadme´ → word que baseamos 
 * `README.md` → documentação principal
 
----
 
 ## 5. Referências
 * Slides do professor
